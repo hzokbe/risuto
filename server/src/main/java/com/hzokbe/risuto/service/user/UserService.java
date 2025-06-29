@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.hzokbe.risuto.exception.user.InvalidPasswordException;
 import com.hzokbe.risuto.exception.user.InvalidUsernameException;
+import com.hzokbe.risuto.exception.user.UserAlreadyRegisteredException;
 import com.hzokbe.risuto.model.user.User;
 import com.hzokbe.risuto.model.user.request.UserRequest;
 import com.hzokbe.risuto.model.user.response.UserResponse;
@@ -30,6 +31,10 @@ public class UserService {
         }
 
         username = username.trim();
+
+        if (repository.existsByUsername(username)) {
+            throw new UserAlreadyRegisteredException("user already registered");
+        }
 
         if (username.isEmpty()) {
             throw new InvalidUsernameException("username must not be blank");
