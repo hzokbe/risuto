@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.hzokbe.risuto.exception.user.InvalidPasswordException;
 import com.hzokbe.risuto.exception.user.InvalidUsernameException;
+import com.hzokbe.risuto.exception.user.UserAlreadyRegisteredException;
 import com.hzokbe.risuto.model.exception.response.ExceptionResponse;
 
 @RestControllerAdvice
@@ -30,6 +31,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ExceptionResponse invalidPasswordExceptionHandler(InvalidPasswordException exception) {
+        return new ExceptionResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(UserAlreadyRegisteredException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ExceptionResponse userAlreadyRegisteredExceptionHandler(UserAlreadyRegisteredException exception) {
         return new ExceptionResponse(exception.getMessage());
     }
 }
